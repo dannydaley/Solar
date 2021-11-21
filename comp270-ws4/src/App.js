@@ -21,8 +21,8 @@ const SpinningMesh = ({ position, color }) => {
   useFrame(()=>(mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
   return (    
         <mesh position={position} ref={mesh}>
-          <boxBufferGeometry attached="geometry" args={[2, 2, 2]} />
-          <meshStandardMaterial attached="material" color={color} />
+          <sphereBufferGeometry attached="geometry" args={[2, 2, 2]} />
+          <meshStandardMaterial attached="material" color={color} transparent={true} />
         </mesh>
     )
 }
@@ -38,7 +38,6 @@ const App = () => {
         <directionalLight position={[-10, -10, -10]} intensity={0.5} shadow-mapSize-width={1024}  shadow-mapSize-height={1024} castShadow={true} receiveShadow={true}/>
         <pointLight position={[-10, 0, -20]} intensity={0.5} />
         <pointLight position={[0, -10, 0]} intensity={0.5} />
-
         <SpinningMesh position={[0, 1, 0]} color={'aqua'} castShadow="true" />
         <SpinningMesh position={[-2, 1, -5]} color={'lightblue'} />
         <SpinningMesh position={[5, 1, -2]} color={'red'} />
