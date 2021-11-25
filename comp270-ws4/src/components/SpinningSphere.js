@@ -6,15 +6,15 @@ import { Suspense, useMemo, useCallback } from 'react';
 import * as THREE from 'three';
 import { PerspectiveCamera, PositionalAudio, OrbitControls, Stars, needsUpdate } from '@react-three/drei'
 
-const SpinningMesh = ({ position, color }) => {
+const SpinningSphere = ({ width, height, position, color, scale }) => {
     const mesh = useRef(null);
     useFrame(()=>(mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
     return (    
           <mesh position={position} ref={mesh}>
-            <sphereBufferGeometry attached="geometry" args={[2, 5,  2]} />
-            <meshStandardMaterial attached="material" color={color} transparent={false} />
+            <sphereBufferGeometry index={false} wireFrame={false} vertices={false} args={[scale, width,  height, 0, Math.PI *2, 0, Math.PI]}/>
+            <meshStandardMaterial wireframe={true} color={color} /> 
           </mesh>
       )
   }
 
-  export default SpinningMesh;
+  export default SpinningSphere;
