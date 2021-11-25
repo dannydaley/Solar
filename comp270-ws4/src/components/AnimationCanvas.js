@@ -16,7 +16,8 @@ import RingPlanet from './RingPlanet';
 
 const AnimationCanvas = (props) => {
     return(
-        <Canvas colorManagement camera={{position: [150, 50, 0], fov:75}} angle={90}>
+      //set up the canvas
+        <Canvas colorManagement camera={{position: [150, 50, 0], fov:75}} angle={90}>        
           <Stars />
           <OrbitControls />
           <PerspectiveCamera />
