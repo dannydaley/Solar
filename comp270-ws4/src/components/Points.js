@@ -54,7 +54,7 @@ const Points = () => {
     //animation
     useFrame(()=> {
   
-      t-=75;
+      t-=30;
       const positions = bufferRef.current.array;
       let i = 0
   

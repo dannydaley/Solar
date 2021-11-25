@@ -8,7 +8,7 @@ import { PerspectiveCamera, PositionalAudio, OrbitControls, Stars, needsUpdate }
 
 const SpinningSphere = ({ width, height, position, color, scale }) => {
     const mesh = useRef(null);
-    useFrame(()=>(mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
+    useFrame(()=>(mesh.current.rotation.x = mesh.current.rotation.y += 0.001));
     return (    
           <mesh position={position} ref={mesh}>
             <sphereBufferGeometry index={false} wireFrame={false} vertices={false} args={[scale, width,  height, 0, Math.PI *2, 0, Math.PI]}/>

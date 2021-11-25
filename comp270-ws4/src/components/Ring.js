@@ -20,7 +20,7 @@ const SpinningRing = ({ position, color}) => {
 
 const mesh = useRef(null);
 // mesh.current.rotation.z+=50;
-useFrame(()=>(mesh.current.rotation.y = mesh.current.rotation.y += 0.05, mesh.current.rotation.x -= 0.009, mesh.current.rotation.z -= 0.002));
+useFrame(()=>(mesh.current.rotation.y = mesh.current.rotation.y += 0.0051, mesh.current.rotation.x += 0.0, mesh.current.rotation.z -= 0.0001));
 //  
 return (
 <mesh  position={position} ref={mesh} >
