@@ -1,27 +1,21 @@
-import React, { useRef, Component, useState } from 'react';
+import React from 'react';
 import "./App.css"
-import { Suspense, useMemo, useCallback } from 'react';
+import { Suspense } from 'react';
 import AnimationCanvas from './components/AnimationCanvas';
-import UI from './components/UI/UI.js'
-import Lines from './components/Lines.js'
 
-let width = 0;
+// sets all shapes to wireframes if true
+let wireframes = false;
+
+// suspense component allows a fallback while it loads
 const App = () => {  
     return(
-      // <div className="outerBody" >2
-      //   <UI />
-      //   <div id="numberTime">10</div>  
-      //   <script>          
-          
-      //   </script>
-    <div className="anim">      
-        <Suspense fallback={<div>Loading...</div>}>
-
-          <AnimationCanvas width={15} height={15} >
-          </AnimationCanvas>
-       </Suspense>        
-    {/* </div>       */}
-      </div>  )
+    <div className="anim">       
+      <Suspense fallback={<div>Loading...</div>}>
+        <AnimationCanvas width={15} height={15} wireframes={wireframes}>
+        </AnimationCanvas>
+       </Suspense>
+      </div>
+      )
   
 }
 

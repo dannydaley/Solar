@@ -1,11 +1,8 @@
 import React, { useRef } from 'react';
-// import "./App.css"
 import whitedot from './images/whitedot.png'
-import { Canvas, useLoader, useFrame } from '@react-three/fiber';
-import { Suspense, useMemo, useCallback } from 'react';
+import { useLoader, useFrame } from '@react-three/fiber';
+import { useMemo, useCallback } from 'react';
 import * as THREE from 'three';
-import { PerspectiveCamera, PositionalAudio, OrbitControls, Stars, needsUpdate } from '@react-three/drei'
-
 
 const Points = () => {
     let count = 250;
@@ -13,7 +10,9 @@ const Points = () => {
     let t = 0; //phase shift;
     let f = 0.0005; //frequency
     let a = 10; //amplitude
+    let timeSpeed = 40;
   
+    //graph for sin wave animation on points
     const graph = useCallback((x, z) => {
       return Math.sin(f * ( x**2 + z**2 + t)) * a;
     }, [t, f, a])
@@ -34,16 +33,12 @@ const Points = () => {
         for(let xi = 0; xi < count; xi++){
             //inner loop z axis increment
             for(let zi = 0; zi < count; zi++){
-
-
                 // set x , z
                 let x = seperation * (xi - count / 2);
                 let z = seperation * (zi - count / 2);
-                // x , z ranges = (-count min, +count max)
-                
+                // x , z ranges = (-count min, +count max)  
                 // set y to memo graph for sin animation
-                let y = graph(x, z);    
-                
+                let y = graph(x, z);                    
                 // apply positions to axes
                 positions.push(x, y, z);                
             }
@@ -52,20 +47,16 @@ const Points = () => {
     }, [count, seperation, graph])
   
     //animation
-    useFrame(()=> {
-  
-      t-=30;
+    useFrame(()=> {  
+      t-=timeSpeed;
       const positions = bufferRef.current.array;
-      let i = 0
-  
+      let i = 0  
       for(let xi = 0; xi < count; xi++){
         for(let zi = 0; zi < count; zi++){
             let x = seperation * (xi - count / 2);
-            let z = seperation * (zi - count / 2);
-              
+            let z = seperation * (zi - count / 2);              
             positions[i + 1] = graph(x, z);
-            i += 3;
-            
+            i += 3;            
         }
       }      
       bufferRef.current.needsUpdate = true ;
@@ -79,8 +70,7 @@ const Points = () => {
             count = {positions.length / 3}
             itemSize={3}
             />
-            </bufferGeometry>
-  
+            </bufferGeometry>  
             <pointsMaterial attach="material"
             meshStandardMaterial={imageTexture}
             map={imageTexture}

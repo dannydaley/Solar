@@ -1,39 +1,28 @@
-import ReactDOM from 'react-dom'
 import React, { useRef } from 'react';
-import * as THREE from 'three/src/Three'
+import PhongShader from './PhongShader';
+import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three'
 
-
-
-import { Canvas, useLoader, useFrame } from '@react-three/fiber';
-
-
-//  const geometry = new THREE.BufferGeometry();
-//  // create a simple square shape. We duplicate the top left and bottom right
-//  // vertices because each vertex needs to appear once per triangle.
-
-//  // itemSize = 3 because there are 3 values (components) per vertex
-
-//  const material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
-//  const mesh = new THREE.Mesh( geometry, material );
-
-const SpinningRing = ({ position, color}) => {
-
-const mesh = useRef(null);
-// mesh.current.rotation.z+=50;
-useFrame(()=>(mesh.current.rotation.y = mesh.current.rotation.y += 0.0051, mesh.current.rotation.x += 0.0, mesh.current.rotation.z -= 0.0001));
-//  
-return (
-<mesh  position={position} ref={mesh} >
-    <sphereBufferGeometry index={false} wireFrame={false} vertices={false} args={[1.4, 30,  5, 3, 7, 1.5, 0.2]}  />
-    <meshStandardMaterial wireframe={true} color={color} /> 
-  </mesh>              
-  )
-}
+let radius = 1.4;
+let widthSegments = 30;
+let heightSegments = 5;
+let phiStart = 3;
+let phiLength = 7;
+let thetaStart = 1.5;
+let thetaLength = 0.2;
+let roatationXincrement = 0.0051;
+let roatationYincrement = 0.0;
+let rotationZincrement = 0.0001;
 
 function Ring(props) {
-    return (
-      <SpinningRing 
-      position={props.position} color={"#73ff45"} wireFrame={false} width={props.width} height={props.height}/>
+  const mesh = useRef(null);
+  useFrame(()=>(mesh.current.rotation.y = mesh.current.rotation.y += roatationXincrement, mesh.current.rotation.x += roatationYincrement, mesh.current.rotation.z -= rotationZincrement))
+    return ( 
+      <mesh  position={props.position} ref={mesh} >
+    <sphereBufferGeometry args={[radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength]} />
+    <meshStandardMaterial color={"red"} doubleSided={true} /> 
+      <PhongShader color={props.ringColor} shininess={props.shininess} wireframe={props.wireframe}/>
+  </mesh>     
     )
   }
   export default Ring;
