@@ -4,13 +4,22 @@ import { useLoader, useFrame } from '@react-three/fiber';
 import { useMemo, useCallback } from 'react';
 import * as THREE from 'three';
 
+
+let dotSize = 2;
+let dotSizeAttenuation = false;
+let dotTransparent = true;
+let dotAlphaTest = 1;
+let dotOpacity = 1;
+
 const Points = () => {
-    let count = 250;
-    let seperation = 2;
-    let t = 0; //phase shift;
-    let f = 0.0005; //frequency
-    let a = 10; //amplitude
-    let timeSpeed = 40;
+    let count = 250;  // amount of points along 1 axis of the grid
+    let seperation = 2; //distance between points
+    let t = 0;   //phase shift;
+    let f = 0.0005;   //frequency
+    let a = 10;   //amplitude
+    let timeSpeed = 40; 
+    let positionSteps = 1;
+    let positionIncrements = 3;
   
     //graph for sin wave animation on points
     const graph = useCallback((x, z) => {
@@ -19,16 +28,12 @@ const Points = () => {
   
     //set up texture (dot image)
     const imageTexture = useLoader(THREE.TextureLoader, whitedot);
-
     // set up reference
     const bufferRef = useRef();
-
     //nested loop for dot positions
     let positions = useMemo(()=> {
-
         //initialize empty dot array
         let positions = []
-
         //outer loop x axis increment
         for(let xi = 0; xi < count; xi++){
             //inner loop z axis increment
@@ -44,23 +49,30 @@ const Points = () => {
             }
         }      
         return new Float32Array(positions);
-    }, [count, seperation, graph])
-  
+    }, [count, seperation, graph])   //dependencies from useMemo
     //animation
     useFrame(()=> {  
       t-=timeSpeed;
+      // get positions from bufferRef
       const positions = bufferRef.current.array;
+      //positionIncrement variable start point
       let i = 0  
+      // nested for loop to iterate throuigh position / 2 to pass into the graph to animate
       for(let xi = 0; xi < count; xi++){
         for(let zi = 0; zi < count; zi++){
             let x = seperation * (xi - count / 2);
-            let z = seperation * (zi - count / 2);              
-            positions[i + 1] = graph(x, z);
-            i += 3;            
+            let z = seperation * (zi - count / 2);    
+
+            //pass to animation graph
+            positions[i + positionSteps] = graph(x, z);
+
+            //increment i 
+            i += positionIncrements;            
         }
       }      
       bufferRef.current.needsUpdate = true ;
     })
+    
     return(
         <points>      
             <bufferGeometry attach="geometry">
@@ -75,11 +87,11 @@ const Points = () => {
             meshStandardMaterial={imageTexture}
             map={imageTexture}
             color={0x03A062}
-            size={2}
-            sizeAttenuation={false}
-            transparent={false}
-            alphaTest={1}
-            opacity={1} />
+            size={dotSize}
+            sizeAttenuation={dotSizeAttenuation}
+            transparent={dotTransparent}
+            alphaTest={dotAlphaTest}
+            opacity={dotOpacity} />
         </points>
     )
   }
