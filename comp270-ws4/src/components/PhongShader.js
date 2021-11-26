@@ -1,3 +1,5 @@
+// info on Phong shader https://en.wikipedia.org/wiki/Phong_reflection_model
+//help from https://codesandbox.io/embed/react-three-fiber-custom-geometry-with-fragment-shader-material-vxswf
 import React from 'react';
 import { useMemo } from 'react';
 import * as THREE from 'three';

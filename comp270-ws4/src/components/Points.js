@@ -1,3 +1,4 @@
+//help from this guide on ripple effect https://www.youtube.com/watch?v=wRmeFtRkF-8&ab_channel=AlvanCalebArulandu
 import React, { useRef } from 'react';
 import whitedot from './images/whitedot.png'
 import { useLoader, useFrame } from '@react-three/fiber';
