@@ -1,22 +1,65 @@
-import React from 'react';
-import "./App.css"
-import { Suspense } from 'react';
-import AnimationCanvas from './components/AnimationCanvas';
+import React, { useState } from "react";
+import "./App.css";
+import { Suspense } from "react";
+import AnimationCanvas from "./components/AnimationCanvas";
 
 // sets all shapes to wireframes if true
-let wireframes = false;
 
 // suspense component allows a fallback while it loads
-const App = () => {  
-    return(
-    <div className="anim">       
-      <Suspense fallback={<div>Loading...</div>}>
-        <AnimationCanvas width={15} height={15} wireframes={wireframes}>
-        </AnimationCanvas>
-       </Suspense>
-      </div>
-      )
-  
-}
+const App = () => {
+    const [pointsKey, setPointsKey] = useState(1);
+    const [wireframes, setWireframes] = useState(false);
+    const [waveSpeed, setWaveSpeed] = useState(5);
 
-export default App; 
+    const changeWireframes = () => {
+        setWireframes(!wireframes);
+        setPointsKey(pointsKey + 1);
+    };
+
+    const changeWaveSpeed = () => {
+        setWaveSpeed(document.getElementById("waveSpeedSlider").value);
+        setPointsKey(pointsKey + 1);
+    };
+    return (
+        <div className="anim" style={{ height: "100vh" }}>
+            <Suspense fallback={<div>Loading...</div>}>
+                <AnimationCanvas
+                    pointsKey={pointsKey}
+                    waveSpeed={waveSpeed}
+                    width={15}
+                    height={15}
+                    wireframes={wireframes}
+                ></AnimationCanvas>
+            </Suspense>
+            <div style={{ display: "flex", justifyContent: "space-around" }}>
+                <button
+                    style={{ width: "100px", height: "50px" }}
+                    onClick={() => changeWireframes()}
+                >
+                    Wireframes
+                </button>
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}
+                >
+                    {" "}
+                    <label for="waveSpeedSlider" style={{ color: "white" }}>
+                        Wave Speed
+                    </label>
+                    <input
+                        id="waveSpeedSlider"
+                        type="range"
+                        min="1"
+                        max="80"
+                        onChange={() => changeWaveSpeed()}
+                    ></input>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default App;
