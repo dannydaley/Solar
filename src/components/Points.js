@@ -17,7 +17,7 @@ const Points = (props) => {
     let t = 0; //phase shift;
     let f = 0.0005; //frequency
     let a = 10; //amplitude
-    // let timeSpeed = 40; // DEPRECATED AND REPLACED BY SLIDER AND STATE IN APP JS
+    let timeSpeed = useRef(document.getElementById("waveSpeedSlider").value); // DEPRECATED AND REPLACED BY SLIDER AND STATE IN APP JS
     let positionSteps = 1;
     let positionIncrements = 3;
 
@@ -56,6 +56,7 @@ const Points = (props) => {
     //animation
     useFrame(() => {
         t -= props.waveSpeed;
+        // t -= timeSpeed.current;
         // get positions from bufferRef
         const positions = bufferRef.current.array;
         //positionIncrement variable start point

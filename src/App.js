@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import { Suspense } from "react";
 import AnimationCanvas from "./components/AnimationCanvas";
@@ -9,23 +9,26 @@ import AnimationCanvas from "./components/AnimationCanvas";
 const App = () => {
     const [pointsKey, setPointsKey] = useState(1);
     const [wireframes, setWireframes] = useState(false);
-    const [waveSpeed, setWaveSpeed] = useState(5);
+    // const [waveSpeed, setWaveSpeed] = useState(5);
 
     const changeWireframes = () => {
         setWireframes(!wireframes);
         setPointsKey(pointsKey + 1);
     };
 
+    const waveSpeed = useRef(40);
     const changeWaveSpeed = () => {
-        setWaveSpeed(document.getElementById("waveSpeedSlider").value);
-        setPointsKey(pointsKey + 1);
+        console.log(waveSpeed);
+        waveSpeed.current = document.getElementById("waveSpeedSlider").value;
+        // setWaveSpeed(document.getElementById("waveSpeedSlider").value);
+        // setPointsKey(pointsKey + 1);
     };
     return (
         <div className="anim" style={{ height: "100vh" }}>
             <Suspense fallback={<div>Loading...</div>}>
                 <AnimationCanvas
                     pointsKey={pointsKey}
-                    waveSpeed={waveSpeed}
+                    waveSpeed={waveSpeed.current}
                     width={15}
                     height={15}
                     wireframes={wireframes}
